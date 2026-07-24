@@ -17,7 +17,7 @@
    ========================================================================== */
 
 import {
-  state, DEFAULT_TARGET, WEEKDAYS, save, saveHolidays, pushUndoSnapshot, normalizeSubjects
+  state, DEFAULT_TARGET, WEEKDAYS, save, saveHolidays, pushUndoSnapshot, normalizeSubjects, escapeHtml
 } from './state.js';
 import { showToast, openSettings, closeSettings, setListTab } from './render.js';
 
@@ -35,20 +35,6 @@ let scanTargetMode = "timetable"; // "timetable" | "breaks" - what this scan run
 // or just "add" | "skip" for breaks.
 let reviewMode = "timetable";
 let reviewItems = [];
-
-/* ---------- Tiny HTML-escaping helper ----------
-   Subject names, notes, and break labels can come from a person typing
-   freely OR from whatever an LLM decides to output - neither is safe to
-   drop straight into innerHTML. Everything user- or model-supplied that
-   gets rendered in the review list goes through this first. */
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
 
 /* ---------- API key storage ---------- */
 // The key lives only in this browser's localStorage. It's read here and

@@ -18,7 +18,7 @@
 import {
   state, DEFAULT_TARGET, WEEKDAYS, formatDate, normalizeSubjects, getDayEntry,
   isClassDay, sessionsForDay, getSessionStatus, save, saveHolidays, isHoliday,
-  holidayLabelFor, pushUndoSnapshot, isMuted
+  holidayLabelFor, pushUndoSnapshot, isMuted, escapeHtml
 } from './state.js';
 import { stats, circularProgress, streakText, safeBunkChip } from './stats.js';
 import { calendarView, changeMonth, toggleDayActions, markSession, markAllToday } from './calendar.js';
@@ -234,7 +234,7 @@ function renderHolidayList() {
   list.innerHTML = sorted.map(h => {
     const range = h.start === h.end ? h.start : (h.start + " \u2192 " + h.end);
     return "<div class='holiday-item'>" +
-      "<span>" + h.label + "<br><small>" + range + "</small></span>" +
+      "<span>" + escapeHtml(h.label) + "<br><small>" + range + "</small></span>" +
       "<button onclick=\"removeHoliday('" + h.id + "')\">Remove</button>" +
       "</div>";
   }).join("");
@@ -494,7 +494,7 @@ function allSubjectsHtml() {
       "<div class='subject-row' onclick='openSubject(" + i + ")'>" +
       "<div class='row-ring'>" + circularProgress(percent, 60, target) + "</div>" +
       "<div class='row-info'>" +
-      "<div class='row-title'>" + sub.name + "</div>" +
+      "<div class='row-title'>" + escapeHtml(sub.name) + "</div>" +
       "<div class='row-meta'>" +
       "<span class='row-streak'>" + streakText(sub) + "</span>" +
       "<span class='row-target'>Target " + target + "%</span>" +
@@ -513,7 +513,7 @@ function todayViewHtml() {
     return `
       <div class="empty-state">
         <div class="empty-icon">\uD83C\uDF89</div>
-        <div class="empty-title">${label || "On a break"}</div>
+        <div class="empty-title">${label ? escapeHtml(label) : "On a break"}</div>
         <div class="empty-text">Today's marked as a semester break, so there's nothing to track.</div>
       </div>
     `;
@@ -560,7 +560,7 @@ function todayViewHtml() {
     const sessionsCount = sessionsForDay(sub, state.todayDayShort);
 
     html += "<div class='today-card'>";
-    html += "<div class='today-card-title'>" + sub.name + "</div>";
+    html += "<div class='today-card-title'>" + escapeHtml(sub.name) + "</div>";
 
     for (let s = 0; s < sessionsCount; s++) {
       const status = getSessionStatus(sub, state.todayString, s);
@@ -607,7 +607,7 @@ function renderDetailView() {
 
     "<div class='subject'>" +
     "<div class='subject-header'>" +
-    "<div class='subject-title'>" + sub.name + "<div class='target-label'>Target " + target + "%</div></div>" +
+    "<div class='subject-title'>" + escapeHtml(sub.name) + "<div class='target-label'>Target " + target + "%</div></div>" +
     circularProgress(percent, 100, target) +
     "</div>" +
 
@@ -672,6 +672,10 @@ Object.assign(window, {
 history.replaceState({ view: "list" }, "", "#");
 updateSwitches();
 render();
+
+// If launched via the home-screen "Mark Today Present" shortcut
+// (manifest.json's "shortcuts" entry), run that action once, right after
+// the first render.
 const launchParams = new URLSearchParams(location.search);
 if (launchParams.get("action") === "mark-today") {
   setListTab("today");
