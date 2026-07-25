@@ -26,6 +26,20 @@ export function formatDate(d) {
   return year + "-" + month + "-" + day;
 }
 
+/* ---------- HTML escaping ----------
+   Subject names and holiday labels can come from a person typing freely,
+   an imported JSON backup, or Gemini's own output - none of that is safe
+   to drop straight into innerHTML. Anything user- or model-supplied that
+   gets rendered anywhere in the app should go through this first. */
+export function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 const today = new Date();
 
 export const state = {
