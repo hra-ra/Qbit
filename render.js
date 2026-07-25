@@ -20,7 +20,7 @@ import {
   isClassDay, sessionsForDay, getSessionStatus, save, saveHolidays, isHoliday,
   holidayLabelFor, pushUndoSnapshot, isMuted, escapeHtml
 } from './state.js';
-import { stats, circularProgress, streakText, safeBunkChip } from './stats.js';
+import { stats, circularProgress, streakText, safeBunkChip, sparklineSvg } from './stats.js';
 import { calendarView, changeMonth, toggleDayActions, markSession, markAllToday } from './calendar.js';
 import {
   openApiKeyModal, closeApiKeyModal, outsideClickApiKey, saveApiKey,
@@ -623,6 +623,8 @@ function renderDetailView() {
     "<div class='streak-text'>" + streakText(sub) + "</div>" +
     "<div class='bunk-chip'>" + safeBunkChip(sub) + "</div>" +
     "</div>" +
+
+    "<div class='sparkline-wrapper'>" + sparklineSvg(sub) + "</div>" +
 
     "<div class='calendar-wrapper'>" +
     calendarView(sub, i) +
