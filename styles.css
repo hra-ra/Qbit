@@ -238,27 +238,37 @@ button:active { transform: scale(0.97); }
   position: fixed;
   right: 30px;
   bottom: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 22px;
+  min-width: 60px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-base);
   background: var(--accent);
   color: var(--text-primary);
   box-shadow: var(--shadow-md);
   transition: var(--transition-fast), transform var(--transition-base);
-}
-
-.fab:hover { transform: scale(1.06); }
-
-.fab-scan {
-  bottom: 102px;
-  width: 50px;
-  height: 50px;
-  background: var(--calendar-bg);
-  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.fab:hover { transform: scale(1.04); }
+
+.fab-extended {
+  padding: 0 20px 0 16px;
+  gap: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fab-plus { font-size: 22px; line-height: 1; }
+
+.fab-scan {
+  bottom: 96px;
+  height: 46px;
+  padding: 0 16px;
+  font-size: var(--fs-sm);
+  background: var(--calendar-bg);
+  color: var(--text-primary);
 }
 
 /* ---------- Modal ---------- */
@@ -543,6 +553,15 @@ body.dark .month-arrows span:hover { background: rgba(255,255,255,0.08); }
   padding: var(--space-2);
   border-radius: var(--radius-md);
 }
+
+.calendar-legend {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+.calendar-legend b { color: var(--text-primary); }
 
 .day {
   position: relative;
@@ -1050,6 +1069,13 @@ body.dark .popover button {
 }
 
 .scan-hint a { color: var(--accent-strong); }
+
+.field-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  margin: 4px 0 var(--space-3);
+  line-height: 1.4;
+}
 
 .scan-drop {
   margin-top: var(--space-3);

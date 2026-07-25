@@ -33,13 +33,17 @@
 
 <div class="container" id="subjects"></div>
 
-<button class="fab fab-scan" id="fabScan" onclick="openScanModal()" aria-label="Scan timetable" title="Scan timetable">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button class="fab fab-scan fab-extended" id="fabScan" onclick="openScanModal()" title="Scan timetable">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
     <circle cx="12" cy="13" r="4"/>
   </svg>
+  <span>Scan Timetable</span>
 </button>
-<button class="fab" id="fab" onclick="openModal()">+</button>
+<button class="fab fab-extended" id="fab" onclick="openModal()">
+  <span class="fab-plus">+</span>
+  <span>Add Subject</span>
+</button>
 
 <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeSettings()"></div>
 <div class="sheet" id="settingsSheet">
@@ -86,6 +90,7 @@
   <div class="card" onclick="event.stopPropagation()">
     <h3 id="modalTitle">Add Subject</h3>
     <input id="subjectName" type="text" placeholder="Subject name" oninput="validateForm()">
+    <p class="field-hint">Pick the days this class meets. Use the &minus;/+ next to a day if it has more than one period that day (e.g. a double lecture = 2).</p>
     <div class="checkbox-group">
       <div class="day-row">
         <label class="checkbox-row"><input type="checkbox" value="Mon" onchange="onDayToggle('Mon')"> Mon</label>
@@ -132,6 +137,7 @@
       <label for="subjectTarget">Target attendance %</label>
       <input id="subjectTarget" type="number" min="50" max="100" value="75" oninput="validateForm()">
     </div>
+    <p class="field-hint">Your college's minimum required attendance for this class - often 75%, but check your own rules.</p>
     <div class="modal-actions">
       <button class="cancel-btn-modal" onclick="closeModal()">Cancel</button>
       <button id="addBtn" onclick="addSubject()" disabled>Add</button>
@@ -155,6 +161,7 @@
 <div class="modal" id="holidayModal" onclick="outsideClickHoliday(event)">
   <div class="card" onclick="event.stopPropagation()">
     <h3>Semester Breaks</h3>
+    <p class="scan-hint">Add days with no classes - holidays, term breaks, exam-only weeks. Any day inside a break is left out of your attendance stats entirely, even if something was already marked on it.</p>
     <div id="holidayList" class="holiday-list"></div>
     <button class="scan-calendar-btn" onclick="openScanModal('breaks')">&#128248; Scan Academic Calendar</button>
     <div class="holiday-form">
@@ -217,7 +224,8 @@
 <div class="modal" id="apiKeyModal" onclick="outsideClickApiKey(event)">
   <div class="card" onclick="event.stopPropagation()">
     <h3>Gemini API Key</h3>
-    <p class="scan-hint">Used only for the timetable scan. Saved in this browser's local storage and sent straight from your device to Google - it never passes through anything Bunkr controls.</p>
+    <p class="scan-hint">The timetable scanner works by sending your photo to Google's Gemini AI to read it. Google requires a personal key for this so it knows who's making each request and can apply your own free usage limit - it's how Google's API works for everyone, not something Bunkr is asking for on top of that.</p>
+    <p class="scan-hint">Your key is saved only in this browser's local storage and used to talk directly to Google from your device. It's never sent to Bunkr, never seen by us, and isn't stored anywhere except here.</p>
     <input id="apiKeyInput" type="password" placeholder="Paste your Gemini API key">
     <p class="scan-hint"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a free key at Google AI Studio &#8594;</a></p>
     <div class="modal-actions">

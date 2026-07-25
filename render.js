@@ -629,6 +629,7 @@ function renderDetailView() {
     "<div class='calendar-wrapper'>" +
     calendarView(sub, i) +
     "</div>" +
+    "<p class='calendar-legend'>Tap a class day to mark it: <b>P</b> Present &middot; <b>A</b> Absent &middot; <b>C</b> Cancelled &middot; <b>\u2715</b> Clear</p>" +
     "</div>";
 }
 
