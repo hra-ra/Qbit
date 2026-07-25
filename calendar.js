@@ -122,6 +122,11 @@ export function calendarView(sub, index) {
 
   html += "<div class='calendar-grid'>";
 
+  const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  weekdayLabels.forEach(label => {
+    html += "<div class='weekday-label'>" + label + "</div>";
+  });
+
   for (let i = 0; i < firstDay; i++) {
     html += "<div></div>";
   }
